@@ -1,0 +1,756 @@
+{
+  "TEXTO": [
+    {
+      "file": "N01_barrido_parametros.png",
+      "rel_path": "TEXTO/resultados/N01_barrido_parametros.png",
+      "title": "N01 barrido parametros",
+      "category": "General"
+    },
+    {
+      "file": "N02_tsne_5_algoritmos.png",
+      "rel_path": "TEXTO/resultados/N02_tsne_5_algoritmos.png",
+      "title": "N02 tsne 5 algoritmos",
+      "category": "Reducción Dim."
+    },
+    {
+      "file": "N03_cluster_vs_area.png",
+      "rel_path": "TEXTO/resultados/N03_cluster_vs_area.png",
+      "title": "N03 cluster vs area",
+      "category": "General"
+    },
+    {
+      "file": "N04_dendrograma_alcanzabilidad.png",
+      "rel_path": "TEXTO/resultados/N04_dendrograma_alcanzabilidad.png",
+      "title": "N04 dendrograma alcanzabilidad",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "N05_hdbscan_probabilidades.png",
+      "rel_path": "TEXTO/resultados/N05_hdbscan_probabilidades.png",
+      "title": "N05 hdbscan probabilidades",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "N06_metricas_5_algoritmos.png",
+      "rel_path": "TEXTO/resultados/N06_metricas_5_algoritmos.png",
+      "title": "N06 metricas 5 algoritmos",
+      "category": "Métricas"
+    },
+    {
+      "file": "N07_tamanos_clusters.png",
+      "rel_path": "TEXTO/resultados/N07_tamanos_clusters.png",
+      "title": "N07 tamanos clusters",
+      "category": "General"
+    },
+    {
+      "file": "N08_acuerdo.png",
+      "rel_path": "TEXTO/resultados/N08_acuerdo.png",
+      "title": "N08 acuerdo",
+      "category": "Métricas"
+    },
+    {
+      "file": "N09_representaciones.png",
+      "rel_path": "TEXTO/resultados/N09_representaciones.png",
+      "title": "N09 representaciones",
+      "category": "General"
+    },
+    {
+      "file": "N10_ranking.png",
+      "rel_path": "TEXTO/resultados/N10_ranking.png",
+      "title": "N10 ranking",
+      "category": "Métricas"
+    }
+  ],
+  "CHICAGO": [
+    {
+      "file": "01_metricas_k.png",
+      "rel_path": "CHICAGO/resultados/01_metricas_k.png",
+      "title": "01 metricas k",
+      "category": "Métricas"
+    },
+    {
+      "file": "02_dendrograma.png",
+      "rel_path": "CHICAGO/resultados/02_dendrograma.png",
+      "title": "02 dendrograma",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "03_jerarquico_geo.png",
+      "rel_path": "CHICAGO/resultados/03_jerarquico_geo.png",
+      "title": "03 jerarquico geo",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "04_jerarquico_silhouette.png",
+      "rel_path": "CHICAGO/resultados/04_jerarquico_silhouette.png",
+      "title": "04 jerarquico silhouette",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "05_kmeans_geo.png",
+      "rel_path": "CHICAGO/resultados/05_kmeans_geo.png",
+      "title": "05 kmeans geo",
+      "category": "K-Means"
+    },
+    {
+      "file": "06_kmeans_silhouette.png",
+      "rel_path": "CHICAGO/resultados/06_kmeans_silhouette.png",
+      "title": "06 kmeans silhouette",
+      "category": "K-Means"
+    },
+    {
+      "file": "07_dbscan_barrido.png",
+      "rel_path": "CHICAGO/resultados/07_dbscan_barrido.png",
+      "title": "07 dbscan barrido",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "08_dbscan_silhouette.png",
+      "rel_path": "CHICAGO/resultados/08_dbscan_silhouette.png",
+      "title": "08 dbscan silhouette",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "09_hdbscan_barrido.png",
+      "rel_path": "CHICAGO/resultados/09_hdbscan_barrido.png",
+      "title": "09 hdbscan barrido",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "10_hdbscan_probabilidades.png",
+      "rel_path": "CHICAGO/resultados/10_hdbscan_probabilidades.png",
+      "title": "10 hdbscan probabilidades",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "11_hdbscan_silhouette.png",
+      "rel_path": "CHICAGO/resultados/11_hdbscan_silhouette.png",
+      "title": "11 hdbscan silhouette",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "12_optics_barrido.png",
+      "rel_path": "CHICAGO/resultados/12_optics_barrido.png",
+      "title": "12 optics barrido",
+      "category": "OPTICS"
+    },
+    {
+      "file": "13_optics_silhouette.png",
+      "rel_path": "CHICAGO/resultados/13_optics_silhouette.png",
+      "title": "13 optics silhouette",
+      "category": "OPTICS"
+    },
+    {
+      "file": "14_comparacion_metricas.png",
+      "rel_path": "CHICAGO/resultados/14_comparacion_metricas.png",
+      "title": "14 comparacion metricas",
+      "category": "Métricas"
+    },
+    {
+      "file": "15_comparacion_geo.png",
+      "rel_path": "CHICAGO/resultados/15_comparacion_geo.png",
+      "title": "15 comparacion geo",
+      "category": "Métricas"
+    },
+    {
+      "file": "16_comparacion_tamanos.png",
+      "rel_path": "CHICAGO/resultados/16_comparacion_tamanos.png",
+      "title": "16 comparacion tamanos",
+      "category": "Métricas"
+    },
+    {
+      "file": "17_acuerdo_algoritmos.png",
+      "rel_path": "CHICAGO/resultados/17_acuerdo_algoritmos.png",
+      "title": "17 acuerdo algoritmos",
+      "category": "Métricas"
+    }
+  ],
+  "ROSTROS": [
+    {
+      "file": "00_detecciones_photo_5035492685619334303_y.png",
+      "rel_path": "ROSTROS/resultados/00_detecciones_photo_5035492685619334303_y.png",
+      "title": "00 detecciones photo 5035492685619334303 y",
+      "category": "Detección"
+    },
+    {
+      "file": "00_detecciones_photo_5096136369708403896_x.png",
+      "rel_path": "ROSTROS/resultados/00_detecciones_photo_5096136369708403896_x.png",
+      "title": "00 detecciones photo 5096136369708403896 x",
+      "category": "Detección"
+    },
+    {
+      "file": "00_detecciones_photo_5096136369708403897_w.png",
+      "rel_path": "ROSTROS/resultados/00_detecciones_photo_5096136369708403897_w.png",
+      "title": "00 detecciones photo 5096136369708403897 w",
+      "category": "Detección"
+    },
+    {
+      "file": "00_detecciones_photo_5096136369708403898_w.png",
+      "rel_path": "ROSTROS/resultados/00_detecciones_photo_5096136369708403898_w.png",
+      "title": "00 detecciones photo 5096136369708403898 w",
+      "category": "Detección"
+    },
+    {
+      "file": "01_metricas_k.png",
+      "rel_path": "ROSTROS/resultados/01_metricas_k.png",
+      "title": "01 metricas k",
+      "category": "Métricas"
+    },
+    {
+      "file": "02_dendrograma.png",
+      "rel_path": "ROSTROS/resultados/02_dendrograma.png",
+      "title": "02 dendrograma",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "03_pca_2d.png",
+      "rel_path": "ROSTROS/resultados/03_pca_2d.png",
+      "title": "03 pca 2d",
+      "category": "Reducción Dim."
+    },
+    {
+      "file": "04_pca_varianza.png",
+      "rel_path": "ROSTROS/resultados/04_pca_varianza.png",
+      "title": "04 pca varianza",
+      "category": "Reducción Dim."
+    },
+    {
+      "file": "05_silhouette_por_rostro.png",
+      "rel_path": "ROSTROS/resultados/05_silhouette_por_rostro.png",
+      "title": "05 silhouette por rostro",
+      "category": "General"
+    },
+    {
+      "file": "06_cluster_0.png",
+      "rel_path": "ROSTROS/resultados/06_cluster_0.png",
+      "title": "06 cluster 0",
+      "category": "General"
+    },
+    {
+      "file": "06_cluster_1.png",
+      "rel_path": "ROSTROS/resultados/06_cluster_1.png",
+      "title": "06 cluster 1",
+      "category": "General"
+    },
+    {
+      "file": "06_cluster_2.png",
+      "rel_path": "ROSTROS/resultados/06_cluster_2.png",
+      "title": "06 cluster 2",
+      "category": "General"
+    },
+    {
+      "file": "07_perfil_clusters.png",
+      "rel_path": "ROSTROS/resultados/07_perfil_clusters.png",
+      "title": "07 perfil clusters",
+      "category": "General"
+    },
+    {
+      "file": "08_indice_lentes.png",
+      "rel_path": "ROSTROS/resultados/08_indice_lentes.png",
+      "title": "08 indice lentes",
+      "category": "Atributos"
+    },
+    {
+      "file": "09_top_lentes.png",
+      "rel_path": "ROSTROS/resultados/09_top_lentes.png",
+      "title": "09 top lentes",
+      "category": "Atributos"
+    },
+    {
+      "file": "10_bottom_lentes.png",
+      "rel_path": "ROSTROS/resultados/10_bottom_lentes.png",
+      "title": "10 bottom lentes",
+      "category": "Atributos"
+    },
+    {
+      "file": "11_kmeans_metricas_k.png",
+      "rel_path": "ROSTROS/resultados/11_kmeans_metricas_k.png",
+      "title": "11 kmeans metricas k",
+      "category": "K-Means"
+    },
+    {
+      "file": "12_kmeans_pca.png",
+      "rel_path": "ROSTROS/resultados/12_kmeans_pca.png",
+      "title": "12 kmeans pca",
+      "category": "K-Means"
+    },
+    {
+      "file": "13_kmeans_silhouette.png",
+      "rel_path": "ROSTROS/resultados/13_kmeans_silhouette.png",
+      "title": "13 kmeans silhouette",
+      "category": "K-Means"
+    },
+    {
+      "file": "14_kmeans_cluster_0.png",
+      "rel_path": "ROSTROS/resultados/14_kmeans_cluster_0.png",
+      "title": "14 kmeans cluster 0",
+      "category": "K-Means"
+    },
+    {
+      "file": "14_kmeans_cluster_1.png",
+      "rel_path": "ROSTROS/resultados/14_kmeans_cluster_1.png",
+      "title": "14 kmeans cluster 1",
+      "category": "K-Means"
+    },
+    {
+      "file": "14_kmeans_cluster_2.png",
+      "rel_path": "ROSTROS/resultados/14_kmeans_cluster_2.png",
+      "title": "14 kmeans cluster 2",
+      "category": "K-Means"
+    },
+    {
+      "file": "15_dbscan_metricas_eps.png",
+      "rel_path": "ROSTROS/resultados/15_dbscan_metricas_eps.png",
+      "title": "15 dbscan metricas eps",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "16_dbscan_pca.png",
+      "rel_path": "ROSTROS/resultados/16_dbscan_pca.png",
+      "title": "16 dbscan pca",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "17_dbscan_silhouette.png",
+      "rel_path": "ROSTROS/resultados/17_dbscan_silhouette.png",
+      "title": "17 dbscan silhouette",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "18_dbscan_cluster_0.png",
+      "rel_path": "ROSTROS/resultados/18_dbscan_cluster_0.png",
+      "title": "18 dbscan cluster 0",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "18_dbscan_cluster_1.png",
+      "rel_path": "ROSTROS/resultados/18_dbscan_cluster_1.png",
+      "title": "18 dbscan cluster 1",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "18_dbscan_cluster_ruido.png",
+      "rel_path": "ROSTROS/resultados/18_dbscan_cluster_ruido.png",
+      "title": "18 dbscan cluster ruido",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "19_comparacion_metricas.png",
+      "rel_path": "ROSTROS/resultados/19_comparacion_metricas.png",
+      "title": "19 comparacion metricas",
+      "category": "Métricas"
+    },
+    {
+      "file": "20_comparacion_pca.png",
+      "rel_path": "ROSTROS/resultados/20_comparacion_pca.png",
+      "title": "20 comparacion pca",
+      "category": "Reducción Dim."
+    },
+    {
+      "file": "21_comparacion_tamanos.png",
+      "rel_path": "ROSTROS/resultados/21_comparacion_tamanos.png",
+      "title": "21 comparacion tamanos",
+      "category": "Métricas"
+    },
+    {
+      "file": "22_acuerdo_algoritmos.png",
+      "rel_path": "ROSTROS/resultados/22_acuerdo_algoritmos.png",
+      "title": "22 acuerdo algoritmos",
+      "category": "Métricas"
+    },
+    {
+      "file": "23_hdbscan_metricas.png",
+      "rel_path": "ROSTROS/resultados/23_hdbscan_metricas.png",
+      "title": "23 hdbscan metricas",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "23b_ranking_algoritmos.png",
+      "rel_path": "ROSTROS/resultados/23b_ranking_algoritmos.png",
+      "title": "23b ranking algoritmos",
+      "category": "Métricas"
+    },
+    {
+      "file": "24_hdbscan_probabilidades.png",
+      "rel_path": "ROSTROS/resultados/24_hdbscan_probabilidades.png",
+      "title": "24 hdbscan probabilidades",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "25_hdbscan_pca.png",
+      "rel_path": "ROSTROS/resultados/25_hdbscan_pca.png",
+      "title": "25 hdbscan pca",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "26_hdbscan_silhouette.png",
+      "rel_path": "ROSTROS/resultados/26_hdbscan_silhouette.png",
+      "title": "26 hdbscan silhouette",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "27_hdbscan_cluster_0.png",
+      "rel_path": "ROSTROS/resultados/27_hdbscan_cluster_0.png",
+      "title": "27 hdbscan cluster 0",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "27_hdbscan_cluster_1.png",
+      "rel_path": "ROSTROS/resultados/27_hdbscan_cluster_1.png",
+      "title": "27 hdbscan cluster 1",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "27_hdbscan_cluster_ruido.png",
+      "rel_path": "ROSTROS/resultados/27_hdbscan_cluster_ruido.png",
+      "title": "27 hdbscan cluster ruido",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "28_optics_metricas_xi.png",
+      "rel_path": "ROSTROS/resultados/28_optics_metricas_xi.png",
+      "title": "28 optics metricas xi",
+      "category": "OPTICS"
+    },
+    {
+      "file": "29_optics_pca.png",
+      "rel_path": "ROSTROS/resultados/29_optics_pca.png",
+      "title": "29 optics pca",
+      "category": "OPTICS"
+    },
+    {
+      "file": "30_optics_silhouette.png",
+      "rel_path": "ROSTROS/resultados/30_optics_silhouette.png",
+      "title": "30 optics silhouette",
+      "category": "OPTICS"
+    },
+    {
+      "file": "31_optics_cluster_0.png",
+      "rel_path": "ROSTROS/resultados/31_optics_cluster_0.png",
+      "title": "31 optics cluster 0",
+      "category": "OPTICS"
+    },
+    {
+      "file": "31_optics_cluster_1.png",
+      "rel_path": "ROSTROS/resultados/31_optics_cluster_1.png",
+      "title": "31 optics cluster 1",
+      "category": "OPTICS"
+    },
+    {
+      "file": "31_optics_cluster_ruido.png",
+      "rel_path": "ROSTROS/resultados/31_optics_cluster_ruido.png",
+      "title": "31 optics cluster ruido",
+      "category": "OPTICS"
+    }
+  ],
+  "SONIDO": [
+    {
+      "file": "01_paso_a_paso.png",
+      "rel_path": "SONIDO/resultados/01_paso_a_paso.png",
+      "title": "01 paso a paso",
+      "category": "General"
+    },
+    {
+      "file": "02_galeria_mel.png",
+      "rel_path": "SONIDO/resultados/02_galeria_mel.png",
+      "title": "02 galeria mel",
+      "category": "Acústica/Señal"
+    },
+    {
+      "file": "03_clases_reales.png",
+      "rel_path": "SONIDO/resultados/03_clases_reales.png",
+      "title": "03 clases reales",
+      "category": "General"
+    },
+    {
+      "file": "04_caracteristicas_clave.png",
+      "rel_path": "SONIDO/resultados/04_caracteristicas_clave.png",
+      "title": "04 caracteristicas clave",
+      "category": "General"
+    },
+    {
+      "file": "05_metricas_k.png",
+      "rel_path": "SONIDO/resultados/05_metricas_k.png",
+      "title": "05 metricas k",
+      "category": "Métricas"
+    },
+    {
+      "file": "06_dendrograma.png",
+      "rel_path": "SONIDO/resultados/06_dendrograma.png",
+      "title": "06 dendrograma",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "07_jerarquico_2d.png",
+      "rel_path": "SONIDO/resultados/07_jerarquico_2d.png",
+      "title": "07 jerarquico 2d",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "08_jerarquico_dist.png",
+      "rel_path": "SONIDO/resultados/08_jerarquico_dist.png",
+      "title": "08 jerarquico dist",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "09_jerarquico_repr.png",
+      "rel_path": "SONIDO/resultados/09_jerarquico_repr.png",
+      "title": "09 jerarquico repr",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "10_kmeans_2d.png",
+      "rel_path": "SONIDO/resultados/10_kmeans_2d.png",
+      "title": "10 kmeans 2d",
+      "category": "K-Means"
+    },
+    {
+      "file": "11_kmeans_silhouette.png",
+      "rel_path": "SONIDO/resultados/11_kmeans_silhouette.png",
+      "title": "11 kmeans silhouette",
+      "category": "K-Means"
+    },
+    {
+      "file": "12_kmeans_dist.png",
+      "rel_path": "SONIDO/resultados/12_kmeans_dist.png",
+      "title": "12 kmeans dist",
+      "category": "K-Means"
+    },
+    {
+      "file": "13_kmeans_perfil.png",
+      "rel_path": "SONIDO/resultados/13_kmeans_perfil.png",
+      "title": "13 kmeans perfil",
+      "category": "K-Means"
+    },
+    {
+      "file": "14_kmeans_repr.png",
+      "rel_path": "SONIDO/resultados/14_kmeans_repr.png",
+      "title": "14 kmeans repr",
+      "category": "K-Means"
+    },
+    {
+      "file": "15_dbscan_barrido.png",
+      "rel_path": "SONIDO/resultados/15_dbscan_barrido.png",
+      "title": "15 dbscan barrido",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "16_dbscan_2d.png",
+      "rel_path": "SONIDO/resultados/16_dbscan_2d.png",
+      "title": "16 dbscan 2d",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "17_dbscan_dist.png",
+      "rel_path": "SONIDO/resultados/17_dbscan_dist.png",
+      "title": "17 dbscan dist",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "18_dbscan_repr.png",
+      "rel_path": "SONIDO/resultados/18_dbscan_repr.png",
+      "title": "18 dbscan repr",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "19_hdbscan_barrido.png",
+      "rel_path": "SONIDO/resultados/19_hdbscan_barrido.png",
+      "title": "19 hdbscan barrido",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "20_hdbscan_prob.png",
+      "rel_path": "SONIDO/resultados/20_hdbscan_prob.png",
+      "title": "20 hdbscan prob",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "21_hdbscan_2d.png",
+      "rel_path": "SONIDO/resultados/21_hdbscan_2d.png",
+      "title": "21 hdbscan 2d",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "22_hdbscan_dist.png",
+      "rel_path": "SONIDO/resultados/22_hdbscan_dist.png",
+      "title": "22 hdbscan dist",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "23_hdbscan_repr.png",
+      "rel_path": "SONIDO/resultados/23_hdbscan_repr.png",
+      "title": "23 hdbscan repr",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "24_optics_barrido.png",
+      "rel_path": "SONIDO/resultados/24_optics_barrido.png",
+      "title": "24 optics barrido",
+      "category": "OPTICS"
+    },
+    {
+      "file": "25_optics_2d.png",
+      "rel_path": "SONIDO/resultados/25_optics_2d.png",
+      "title": "25 optics 2d",
+      "category": "OPTICS"
+    },
+    {
+      "file": "26_optics_dist.png",
+      "rel_path": "SONIDO/resultados/26_optics_dist.png",
+      "title": "26 optics dist",
+      "category": "OPTICS"
+    },
+    {
+      "file": "27_optics_repr.png",
+      "rel_path": "SONIDO/resultados/27_optics_repr.png",
+      "title": "27 optics repr",
+      "category": "OPTICS"
+    },
+    {
+      "file": "28_comparacion_metricas.png",
+      "rel_path": "SONIDO/resultados/28_comparacion_metricas.png",
+      "title": "28 comparacion metricas",
+      "category": "Métricas"
+    },
+    {
+      "file": "29_comparacion_tsne.png",
+      "rel_path": "SONIDO/resultados/29_comparacion_tsne.png",
+      "title": "29 comparacion tsne",
+      "category": "Reducción Dim."
+    },
+    {
+      "file": "30_contingencia.png",
+      "rel_path": "SONIDO/resultados/30_contingencia.png",
+      "title": "30 contingencia",
+      "category": "General"
+    },
+    {
+      "file": "31_acuerdo_algoritmos.png",
+      "rel_path": "SONIDO/resultados/31_acuerdo_algoritmos.png",
+      "title": "31 acuerdo algoritmos",
+      "category": "Métricas"
+    },
+    {
+      "file": "32_espectro_por_cluster.png",
+      "rel_path": "SONIDO/resultados/32_espectro_por_cluster.png",
+      "title": "32 espectro por cluster",
+      "category": "Acústica/Señal"
+    },
+    {
+      "file": "33_perfil_mejor.png",
+      "rel_path": "SONIDO/resultados/33_perfil_mejor.png",
+      "title": "33 perfil mejor",
+      "category": "General"
+    },
+    {
+      "file": "B1_fourier_suma_de_senos.png",
+      "rel_path": "SONIDO/resultados/B1_fourier_suma_de_senos.png",
+      "title": "B1 fourier suma de senos",
+      "category": "Acústica/Señal"
+    },
+    {
+      "file": "B1_tiempo_vs_frecuencia (1).png",
+      "rel_path": "SONIDO/resultados/B1_tiempo_vs_frecuencia (1).png",
+      "title": "B1 tiempo vs frecuencia (1)",
+      "category": "Acústica/Señal"
+    },
+    {
+      "file": "B1_tiempo_vs_frecuencia.png",
+      "rel_path": "SONIDO/resultados/B1_tiempo_vs_frecuencia.png",
+      "title": "B1 tiempo vs frecuencia",
+      "category": "Acústica/Señal"
+    },
+    {
+      "file": "B2_constelacion.png",
+      "rel_path": "SONIDO/resultados/B2_constelacion.png",
+      "title": "B2 constelacion",
+      "category": "Acústica/Señal"
+    },
+    {
+      "file": "B3_precision_vs_ruido.png",
+      "rel_path": "SONIDO/resultados/B3_precision_vs_ruido.png",
+      "title": "B3 precision vs ruido",
+      "category": "General"
+    },
+    {
+      "file": "B3_votacion_desfase.png",
+      "rel_path": "SONIDO/resultados/B3_votacion_desfase.png",
+      "title": "B3 votacion desfase",
+      "category": "General"
+    }
+  ],
+  "NEUROCIENCIA": [
+    {
+      "file": "01_morfologia_ondas_eeg.png",
+      "rel_path": "NEUROCIENCIA/resultados/01_morfologia_ondas_eeg.png",
+      "title": "01 morfologia ondas eeg",
+      "category": "Señal EEG"
+    },
+    {
+      "file": "02_hipnograma_polisomnografia.png",
+      "rel_path": "NEUROCIENCIA/resultados/02_hipnograma_polisomnografia.png",
+      "title": "02 hipnograma polisomnografia",
+      "category": "Polisomnografía"
+    },
+    {
+      "file": "03_firma_espectral_fases.png",
+      "rel_path": "NEUROCIENCIA/resultados/03_firma_espectral_fases.png",
+      "title": "03 firma espectral fases",
+      "category": "Señal EEG"
+    },
+    {
+      "file": "04_proyeccion_fases_reales.png",
+      "rel_path": "NEUROCIENCIA/resultados/04_proyeccion_fases_reales.png",
+      "title": "04 proyeccion fases reales",
+      "category": "Polisomnografía"
+    },
+    {
+      "file": "05_kmeans_eeg.png",
+      "rel_path": "NEUROCIENCIA/resultados/05_kmeans_eeg.png",
+      "title": "05 kmeans eeg",
+      "category": "K-Means"
+    },
+    {
+      "file": "06_jerarquico_dendrograma_eeg.png",
+      "rel_path": "NEUROCIENCIA/resultados/06_jerarquico_dendrograma_eeg.png",
+      "title": "06 jerarquico dendrograma eeg",
+      "category": "Jerárquico"
+    },
+    {
+      "file": "07_dbscan_eeg.png",
+      "rel_path": "NEUROCIENCIA/resultados/07_dbscan_eeg.png",
+      "title": "07 dbscan eeg",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "08_hdbscan_eeg.png",
+      "rel_path": "NEUROCIENCIA/resultados/08_hdbscan_eeg.png",
+      "title": "08 hdbscan eeg",
+      "category": "DBSCAN"
+    },
+    {
+      "file": "09_optics_alcanzabilidad_eeg.png",
+      "rel_path": "NEUROCIENCIA/resultados/09_optics_alcanzabilidad_eeg.png",
+      "title": "09 optics alcanzabilidad eeg",
+      "category": "OPTICS"
+    },
+    {
+      "file": "10_gmm_elipses_soft_clustering.png",
+      "rel_path": "NEUROCIENCIA/resultados/10_gmm_elipses_soft_clustering.png",
+      "title": "10 gmm elipses soft clustering",
+      "category": "GMM"
+    },
+    {
+      "file": "11_comparacion_metricas_neurociencia.png",
+      "rel_path": "NEUROCIENCIA/resultados/11_comparacion_metricas_neurociencia.png",
+      "title": "11 comparacion metricas neurociencia",
+      "category": "Métricas"
+    },
+    {
+      "file": "12_matriz_concordancia_gmm.png",
+      "rel_path": "NEUROCIENCIA/resultados/12_matriz_concordancia_gmm.png",
+      "title": "12 matriz concordancia gmm",
+      "category": "GMM"
+    }
+  ]
+}

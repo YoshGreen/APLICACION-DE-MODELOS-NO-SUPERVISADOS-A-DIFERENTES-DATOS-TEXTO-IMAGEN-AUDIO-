@@ -1,0 +1,3 @@
+@echo off
+echo Iniciando Dashboard de Modelos No Supervisados...
+start index.html

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmark de Modelos No Supervisados | Machine Learning Dashboard</title>
+    
+    <!-- Tailwind CSS with Dark Mode -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                        darkborder: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Leaflet.js for Interactive Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .tab-active {
+            @apply bg-blue-600 text-white shadow-lg shadow-blue-500/25 border-blue-500 font-semibold;
+        }
+        .tab-inactive {
+            @apply text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/30">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight flex items-center gap-2">
+                        Machine Learning <span class="text-xs px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-semibold">Modelos No Supervisados</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        6 Modelos (Jerárquico, K-Means, DBSCAN, HDBSCAN, OPTICS, GMM) &bull; 112 Capturas &bull; 5 Dominios
+                    </p>
+                </div>
+            </div>
+
+            <!-- Theme Switcher & Actions -->
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle-btn" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-all shadow-sm">
+                    <svg id="icon-sun" class="w-4 h-4 text-amber-400 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                    <svg id="icon-moon" class="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <span id="theme-label">Tema</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800/80">
+            <nav class="flex space-x-1 sm:space-x-2 overflow-x-auto py-2 no-scrollbar" aria-label="Tabs">
+                <button data-tab="texto" class="tab-btn tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2">
+                    <span>📄</span> Pestaña 1: Texto (NLP)
+                    <span class="text-[10px] px-1.5 py-0.2 rounded-md bg-white/20">10</span>
+                </button>
+                <button data-tab="chicago" class="tab-btn tab-inactive px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2">
+                    <span>🗺️</span> Pestaña 2: Chicago (Mapa)
+                    <span class="text-[10px] px-1.5 py-0.2 rounded-md bg-white/20">17</span>
+                </button>
+                <button data-tab="rostros" class="tab-btn tab-inactive px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2">
+                    <span>👤</span> Pestaña 3: Rostros (Visión)
+                    <span class="text-[10px] px-1.5 py-0.2 rounded-md bg-white/20">46</span>
+                </button>
+                <button data-tab="sonido" class="tab-btn tab-inactive px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2">
+                    <span>🎵</span> Pestaña 4: Sonido (Audio)
+                    <span class="text-[10px] px-1.5 py-0.2 rounded-md bg-white/20">39</span>
+                </button>
+                <button data-tab="comparaciones" class="tab-btn tab-inactive px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2">
+                    <span>📊</span> Pestaña 5: Comparaciones & Benchmark
+                </button>
+                <button data-tab="eeg" class="tab-btn tab-inactive px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 bg-gradient-to-r hover:from-purple-500/10 hover:to-blue-500/10">
+                    <span>🧠</span> Pestaña 6: Neurociencia EEG (Sueño)
+                    <span class="text-[10px] px-1.5 py-0.2 rounded-md bg-white/20">12</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ============================================================== -->
+        <!-- TAB 1: TEXTO (NLP) -->
+        <!-- ============================================================== -->
+        <section id="panel-texto" class="tab-panel space-y-6">
+            <!-- Header Summary Box -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>📄</span> Agrupamiento de Noticias y Textos
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Comparación entre representaciones densas (Embeddings neuronales) y dispersas (TF-IDF + LSA) aplicando los 6 modelos.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-semibold">10 Capturas de Colab</span>
+                    <span class="px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">t-SNE 2D & Dendrograma</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Metrics & Interactive Chart Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Metrics Table (7 cols) -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">
+                        Tabla Comparativa de Modelos (Embeddings vs TF-IDF)
+                    </h3>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                <th class="py-2 px-3">Modelo</th>
+                                <th class="py-2 px-3 text-center">Clusters</th>
+                                <th class="py-2 px-3 text-center">Ruido %</th>
+                                <th class="py-2 px-3 text-center text-blue-500">Sil. Embed</th>
+                                <th class="py-2 px-3 text-center text-purple-500">Sil. TF-IDF</th>
+                                <th class="py-2 px-3 text-center">DB</th>
+                                <th class="py-2 px-3 text-center">Calinski</th>
+                            </tr>
+                        </thead>
+                        <tbody id="texto-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <!-- Populated by app.js -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Interactive Chart (5 cols) -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                        Comparativa de Coeficiente Silhouette
+                    </h3>
+                    <div class="relative flex-1 min-h-[260px]">
+                        <canvas id="chart-texto-comparison"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Gallery Section with Filter Controls -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🖼️</span> Galería Completa de Evidencias (Colab)
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <input type="text" oninput="filterGallery(this.value, 'TEXTO')" placeholder="Filtrar capturas de texto..." class="w-full sm:w-60 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <div id="filters-texto" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div id="gallery-texto" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2">
+                    <!-- Cards populated by app.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 2: CHICAGO (GEOSPATIAL & TAXI PICKUPS) -->
+        <!-- ============================================================== -->
+        <section id="panel-chicago" class="tab-panel hidden space-y-6">
+            <!-- Header Summary Box -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🗺️</span> Movilidad Urbana y Taxis en Chicago
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        943 coordenadas reales de recogida de taxis. Detección de núcleos comerciales (Loop) y viajes atípicos a aeropuertos y suburbios.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <span id="chicago-stats-badge" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        Cargando estadísticas...
+                    </span>
+                    <a href="CHICAGO/resultados/mapa_clusters_pickup_chicago.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all shadow flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Abrir Mapa Folium Original
+                    </a>
+                </div>
+            </div>
+
+            <!-- MAP DISPLAY SECTION (EMBEDDED FOLIUM + DYNAMIC MODEL EXPLORER) -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                            <span>🗺️</span> Visualizador del Mapa de Chicago
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                            Alterna entre el mapa interactivo original de Colab (Folium) y el explorador dinámico de los 6 modelos:
+                        </p>
+                    </div>
+
+                    <!-- Mode Toggle Buttons -->
+                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <button id="btn-view-folium" onclick="toggleChicagoView('folium')" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all bg-blue-600 text-white shadow">
+                            🗺️ Mapa Original Colab (Folium)
+                        </button>
+                        <button id="btn-view-dynamic" onclick="toggleChicagoView('dynamic')" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-600 dark:text-slate-300 hover:text-white">
+                            ⚡ Selector de 6 Algoritmos
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VIEW 1: EMBEDDED FOLIUM MAP (GUARANTEED TO LOAD LOCALLY) -->
+                <div id="container-folium-map" class="w-full rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-inner bg-slate-950">
+                    <iframe src="CHICAGO/resultados/mapa_clusters_pickup_chicago.html" 
+                            class="w-full h-[520px] border-0" 
+                            title="Mapa Original de Folium Chicago" 
+                            loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- VIEW 2: DYNAMIC 6-ALGORITHM EXPLORER (LEAFLET) -->
+                <div id="container-dynamic-map" class="hidden space-y-3">
+                    <!-- Algorithm Switcher Buttons -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                        <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Seleccionar Algoritmo:</span>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="updateChicagoMapMarkers('kmeans')" data-model="kmeans" class="chicago-model-btn px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-blue-600 text-white">K-Means</button>
+                            <button onclick="updateChicagoMapMarkers('jerarquico')" data-model="jerarquico" class="chicago-model-btn px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Jerárquico</button>
+                            <button onclick="updateChicagoMapMarkers('dbscan')" data-model="dbscan" class="chicago-model-btn px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">DBSCAN</button>
+                            <button onclick="updateChicagoMapMarkers('hdbscan')" data-model="hdbscan" class="chicago-model-btn px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">HDBSCAN</button>
+                            <button onclick="updateChicagoMapMarkers('optics')" data-model="optics" class="chicago-model-btn px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">OPTICS</button>
+                            <button onclick="updateChicagoMapMarkers('gmm')" data-model="gmm" class="chicago-model-btn px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-slate-200 dark:bg-slate-800 text-purple-400 font-bold">GMM (Soft)</button>
+                        </div>
+                    </div>
+
+                    <!-- Leaflet Container with explicit inline dimensions -->
+                    <div id="chicago-map" style="height: 500px; width: 100%; min-height: 500px;" class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-inner z-10"></div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#38bdf8]"></span> Clúster 0</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#818cf8]"></span> Clúster 1</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#34d399]"></span> Clúster 2</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#ef4444]"></span> Ruido / Atípico (-1)</span>
+                    </div>
+                    <a href="CHICAGO/resultados/mapa_clusters_pickup_chicago.html" target="_blank" class="text-blue-500 hover:underline flex items-center gap-1">
+                        Abrir mapa Folium en pestaña completa ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- Metrics Table and Bar Chart -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">
+                        Métricas de Rendimiento Espacial
+                    </h3>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                <th class="py-2 px-3">Modelo</th>
+                                <th class="py-2 px-3 text-center">Clusters</th>
+                                <th class="py-2 px-3 text-center">Ruido %</th>
+                                <th class="py-2 px-3 text-center text-blue-500">Silhouette</th>
+                                <th class="py-2 px-3 text-center">Calinski</th>
+                                <th class="py-2 px-3 text-center">Davies-Bouldin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="chicago-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <!-- Populated by app.js -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                        Silhouette vs Ruido Filtrado
+                    </h3>
+                    <div class="relative flex-1 min-h-[240px]">
+                        <canvas id="chart-chicago-metrics"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Gallery -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🖼️</span> Galería Completa de Resultados de Chicago (17 Capturas)
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <input type="text" oninput="filterGallery(this.value, 'CHICAGO')" placeholder="Filtrar capturas de Chicago..." class="w-full sm:w-60 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <div id="filters-chicago" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+                <div id="gallery-chicago" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 3: ROSTROS (COMPUTER VISION & PCA) -->
+        <!-- ============================================================== -->
+        <section id="panel-rostros" class="tab-panel hidden space-y-6">
+            <!-- Header Summary Box -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>👤</span> Reconocimiento y Agrupamiento de Rostros (Eigenfaces)
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Detección facial, reducción con PCA y descubrimiento no supervisado de rasgos (uso de lentes de sol, orientación y pose).
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="px-3 py-1 rounded-lg bg-pink-50 dark:bg-pink-900/40 text-pink-600 dark:text-pink-300 border border-pink-200 dark:border-pink-800 font-semibold">46 Capturas de Colab</span>
+                    <span class="px-3 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-semibold">PCA 2D + Índice de Lentes</span>
+                </div>
+            </div>
+
+            <!-- Metrics and Visual Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">
+                        Métricas de Agrupamiento sobre Espacio PCA
+                    </h3>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                <th class="py-2 px-3">Modelo</th>
+                                <th class="py-2 px-3 text-center">Clusters</th>
+                                <th class="py-2 px-3 text-center">Ruido %</th>
+                                <th class="py-2 px-3 text-center text-blue-500">Silhouette</th>
+                                <th class="py-2 px-3 text-center">Calinski</th>
+                                <th class="py-2 px-3 text-center text-pink-500">Davies-Bouldin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rostros-table-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                    </table>
+                </div>
+
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                        Calidad de Separación (Silhouette vs DB)
+                    </h3>
+                    <div class="relative flex-1 min-h-[240px]">
+                        <canvas id="chart-rostros-metrics"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Gallery -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🖼️</span> Galería Completa de Rostros (46 Capturas)
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <input type="text" oninput="filterGallery(this.value, 'ROSTROS')" placeholder="Filtrar capturas de rostros..." class="w-full sm:w-60 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <div id="filters-rostros" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+                <div id="gallery-rostros" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 4: SONIDO (AUDIO & MEL SPECTROGRAMS) -->
+        <!-- ============================================================== -->
+        <section id="panel-sonido" class="tab-panel hidden space-y-6">
+            <!-- Header Summary Box -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🎵</span> Agrupamiento Acústico y Espectrogramas Mel
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Transformada de Fourier, banco de filtros Mel, constelaciones espectrales y benchmarking frente a clases reales de audio.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">39 Capturas de Colab</span>
+                    <span class="px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-semibold">Pureza & V-Measure</span>
+                </div>
+            </div>
+
+            <!-- Metrics and Radar Chart -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">
+                        Métricas de Señal y Separabilidad Acústica
+                    </h3>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                <th class="py-2 px-3">Modelo</th>
+                                <th class="py-2 px-3 text-center">Clusters</th>
+                                <th class="py-2 px-3 text-center">Ruido %</th>
+                                <th class="py-2 px-3 text-center text-blue-500">Silhouette</th>
+                                <th class="py-2 px-3 text-center">Calinski</th>
+                                <th class="py-2 px-3 text-center">Davies-Bouldin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sonido-table-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                    </table>
+                </div>
+
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                        Radar de Rendimiento Acústico
+                    </h3>
+                    <div class="relative flex-1 min-h-[250px]">
+                        <canvas id="chart-sonido-radar"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Gallery -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>🖼️</span> Galería Completa de Audio y Espectrogramas (39 Capturas)
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <input type="text" oninput="filterGallery(this.value, 'SONIDO')" placeholder="Filtrar capturas de sonido..." class="w-full sm:w-60 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <div id="filters-sonido" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+                <div id="gallery-sonido" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 5: COMPARACIONES & BENCHMARK GLOBAL -->
+        <!-- ============================================================== -->
+        <section id="panel-comparaciones" class="tab-panel hidden space-y-6">
+            <!-- Header Summary Box -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>📊</span> Benchmark Transversal & Matriz de Decisión
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Comparación transversal de los 6 modelos a través de todos los experimentos. ¿Qué modelo elegir según el tipo de datos?
+                    </p>
+                </div>
+                <span class="px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/30 text-xs font-bold">
+                    6 Algoritmos Evaluados
+                </span>
+            </div>
+
+            <!-- Global Radar & Interactive Wizard -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Radar across all 5 domains (6 cols) -->
+                <div class="lg:col-span-6 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                        Rendimiento Global Relativo por Dominio
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                        Evaluación balanceada (Silueta, Cobertura, Estabilidad ARI y Resistencia al Ruido).
+                    </p>
+                    <div class="relative flex-1 min-h-[320px]">
+                        <canvas id="chart-global-radar"></canvas>
+                    </div>
+                </div>
+
+                <!-- Interactive Decision Wizard (6 cols) -->
+                <div class="lg:col-span-6 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+                            <span>🧭</span> Asistente Interactivo de Selección de Algoritmo
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                            Selecciona las características de tu problema para obtener la recomendación óptima:
+                        </p>
+
+                        <div class="space-y-3 text-xs">
+                            <div>
+                                <label class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">1. Geometría de los datos:</label>
+                                <select id="wiz-shape" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-slate-800 dark:text-slate-200">
+                                    <option value="spherical">Convexos / Esféricos / Globulares</option>
+                                    <option value="arbitrary">Formas arbitrarias / Trayectorias / Lunas</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">2. Presencia de ruido y anomalías:</label>
+                                <select id="wiz-noise" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-slate-800 dark:text-slate-200">
+                                    <option value="yes">Sí, contiene observaciones atípicas / ruido</option>
+                                    <option value="no">No, datos limpios sin ruido</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">3. Distribución de Densidad:</label>
+                                <select id="wiz-density" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-slate-800 dark:text-slate-200">
+                                    <option value="uniform">Densidad relativamente uniforme</option>
+                                    <option value="variable">Densidad altamente variable en diferentes zonas</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">4. ¿Pertenencia difusa o probabilidad suave (Soft Clustering)?</label>
+                                <select id="wiz-soft" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-slate-800 dark:text-slate-200">
+                                    <option value="no">Partición rígida / Discreta</option>
+                                    <option value="yes">Sí, requiero probabilidades de pertenencia (P &gt; 0)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button onclick="recommendModel(document.getElementById('wiz-shape').value, document.getElementById('wiz-noise').value, document.getElementById('wiz-density').value, document.getElementById('wiz-soft').value)" 
+                            class="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow transition-all">
+                            Evaluar Algoritmo Óptimo
+                        </button>
+                    </div>
+
+                    <div id="wizard-result" class="mt-4">
+                        <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400">
+                            Haz clic en "Evaluar Algoritmo Óptimo" para ver la recomendación técnica.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comprehensive Decision Matrix Table -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto space-y-4">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                    Matriz Comparativa de Capacidades Algorítmicas
+                </h3>
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold">
+                            <th class="py-2.5 px-3">Algoritmo</th>
+                            <th class="py-2.5 px-3">Suposición Geométrica</th>
+                            <th class="py-2.5 px-3 text-center">Requiere k</th>
+                            <th class="py-2.5 px-3 text-center">Filtra Ruido</th>
+                            <th class="py-2.5 px-3 text-center">Densidad Variable</th>
+                            <th class="py-2.5 px-3 text-center">Soft Clustering</th>
+                            <th class="py-2.5 px-3">Caso de Uso Ganador</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 px-3 font-bold text-blue-500">K-Means</td>
+                            <td class="py-2.5 px-3">Esferas isotrópicas convexas</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-amber-500">Sí</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No (0%)</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No</td>
+                            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-300">Grandes volúmenes tabulares limpios y partición inicial rápida.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 px-3 font-bold text-indigo-500">Jerárquico (Ward)</td>
+                            <td class="py-2.5 px-3">Variabilidad mínima por fusión</td>
+                            <td class="py-2.5 px-3 text-center text-emerald-500">No (corte)</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No (0%)</td>
+                            <td class="py-2.5 px-3 text-center text-amber-500">Moderado</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No</td>
+                            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-300">Taxonomías biológicas y exploración visual con dendrograma.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 px-3 font-bold text-emerald-500">DBSCAN</td>
+                            <td class="py-2.5 px-3">Conectividad por densidad ($\epsilon$)</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">No</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí (Excelente)</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No</td>
+                            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-300">Detección de anomalías espaciales y formas no lineales en GPS.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 px-3 font-bold text-amber-500">HDBSCAN</td>
+                            <td class="py-2.5 px-3">Jerarquía de densidad estable</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">No</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí (Automático)</td>
+                            <td class="py-2.5 px-3 text-center text-emerald-500">Probabilidad</td>
+                            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-300">Embeddings neuronales de texto y clusters con sub-densidades.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 px-3 font-bold text-pink-500">OPTICS</td>
+                            <td class="py-2.5 px-3">Ordenamiento por alcanzabilidad</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">No</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí</td>
+                            <td class="py-2.5 px-3 text-center text-red-500">No</td>
+                            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-300">Inspección de estructuras anidadas y micro-clusters continuos.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 px-3 font-bold text-purple-400">GMM (Gaussian Mixture)</td>
+                            <td class="py-2.5 px-3">Elipsoides con covarianza completa</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-amber-500">Sí (BIC/AIC)</td>
+                            <td class="py-2.5 px-3 text-center text-amber-500">Vía probabilidad</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí</td>
+                            <td class="py-2.5 px-3 text-center font-bold text-emerald-500">Sí (Completo)</td>
+                            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-300">Transiciones biológicas/clínicas (EEG) y mezclas solapadas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 6: NEUROCIENCIA & ONDAS CEREBRALES (EEG) -->
+        <!-- ============================================================== -->
+        <section id="panel-eeg" class="tab-panel hidden space-y-6">
+            <!-- Header Summary Box -->
+            <div class="bg-gradient-to-r from-purple-900/30 via-slate-900 to-blue-900/30 rounded-2xl p-5 border border-purple-500/30 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🧠</span>
+                        <h2 class="text-xl font-bold text-white">
+                            Neurociencia y Polisomnografía: Descubrimiento de Fases del Sueño
+                        </h2>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500 text-white">Dominio Fisiológico</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-3xl">
+                        450 épocas de registro EEG analizadas a través de 5 bandas espectrales: <strong>Delta (0.5-4Hz)</strong>, <strong>Theta (4-8Hz)</strong>, <strong>Alpha (8-12Hz)</strong>, <strong>Beta (12-30Hz)</strong> y <strong>Gamma (>30Hz)</strong>. Agrupamiento no supervisado sin etiquetas clínicas previas.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <span class="px-3 py-1.5 rounded-lg bg-purple-950/80 text-purple-300 border border-purple-700 font-semibold">450 Épocas Temporales</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-blue-950/80 text-blue-300 border border-blue-700 font-semibold">GMM: 92.4% ARI</span>
+                    <a href="NEUROCIENCIA/clustering_eeg_neurociencia.ipynb" download class="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-semibold transition-all shadow flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Descargar Notebook Colab (.ipynb)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Interactive EEG 2D Scatter Plot & Signal Inspector -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- EEG 2D Scatter Plot (7 cols) -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                Espacio Biológico EEG (PC1: Profundidad vs PC2: Activación)
+                            </h3>
+                            <!-- Model Switcher Buttons -->
+                            <div class="flex flex-wrap gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs">
+                                <button onclick="renderEegScatterPlot('real')" data-model="real" class="eeg-model-btn px-2.5 py-1 rounded-lg font-semibold transition-all">Fases Reales</button>
+                                <button onclick="renderEegScatterPlot('gmm')" data-model="gmm" class="eeg-model-btn px-2.5 py-1 rounded-lg font-semibold transition-all text-purple-400 font-bold">GMM (Soft)</button>
+                                <button onclick="renderEegScatterPlot('hdbscan')" data-model="hdbscan" class="eeg-model-btn px-2.5 py-1 rounded-lg font-semibold transition-all">HDBSCAN</button>
+                                <button onclick="renderEegScatterPlot('dbscan')" data-model="dbscan" class="eeg-model-btn px-2.5 py-1 rounded-lg font-semibold transition-all">DBSCAN</button>
+                                <button onclick="renderEegScatterPlot('kmeans')" data-model="kmeans" class="eeg-model-btn px-2.5 py-1 rounded-lg font-semibold transition-all">K-Means</button>
+                                <button onclick="renderEegScatterPlot('jerarquico')" data-model="jerarquico" class="eeg-model-btn px-2.5 py-1 rounded-lg font-semibold transition-all">Jerárquico</button>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">
+                            Haz clic en cualquier punto del gráfico para cargar su bioseñal en el inspector de la derecha:
+                        </p>
+                    </div>
+
+                    <div class="relative w-full h-[360px]">
+                        <canvas id="chart-eeg-scatter"></canvas>
+                    </div>
+                </div>
+
+                <!-- EEG Epoch Live Inspector (5 cols) -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3 mb-3">
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
+                                    <span>🔬</span> Inspector de Bioseñal
+                                </h3>
+                                <p class="text-xs text-slate-500">Época seleccionada: <strong id="eeg-inspect-id" class="text-blue-500 font-mono text-sm">#0</strong></p>
+                            </div>
+                            <span id="eeg-inspect-real" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30">
+                                Vigilia (Wake)
+                            </span>
+                        </div>
+
+                        <!-- KPIs for selected Epoch -->
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60">
+                                <p class="text-[10px] text-slate-400 uppercase font-semibold">Ratio Delta/Beta</p>
+                                <p id="eeg-inspect-ratio" class="text-sm font-bold text-slate-800 dark:text-white font-mono mt-0.5">0.34</p>
+                            </div>
+                            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60">
+                                <p class="text-[10px] text-slate-400 uppercase font-semibold">Asignación GMM</p>
+                                <p id="eeg-inspect-gmm-cluster" class="text-sm font-bold text-purple-400 font-mono mt-0.5">Clúster 0</p>
+                            </div>
+                            <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60">
+                                <p class="text-[10px] text-slate-400 uppercase font-semibold">Confianza GMM</p>
+                                <p id="eeg-inspect-gmm-prob" class="text-sm font-bold text-emerald-400 font-mono mt-0.5">98.5%</p>
+                            </div>
+                        </div>
+
+                        <!-- Brain Wave Power Bar Chart -->
+                        <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                            Distribución de Potencia Espectral por Banda (µV²)
+                        </h4>
+                    </div>
+
+                    <div class="relative w-full h-[210px]">
+                        <canvas id="chart-eeg-bands"></canvas>
+                    </div>
+
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2">
+                        * GMM sobresale porque modela la transición gradual entre somnolencia (Alpha/Theta) y sueño ligero mediante pertenencias difusas con elipses de covarianza.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparative Metrics Table on EEG -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto space-y-3">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                    Evaluación de los 6 Modelos en Polisomnografía Clínica
+                </h3>
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                            <th class="py-2.5 px-3">Modelo</th>
+                            <th class="py-2.5 px-3 text-center">Clusters</th>
+                            <th class="py-2.5 px-3 text-center">Ruido / Artefactos</th>
+                            <th class="py-2.5 px-3 text-center text-blue-500">Silhouette</th>
+                            <th class="py-2.5 px-3 text-center text-emerald-500">ARI (vs Fases Reales)</th>
+                            <th class="py-2.5 px-3 text-center">Davies-Bouldin</th>
+                            <th class="py-2.5 px-3">Comportamiento en Neurociencia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eeg-table-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                </table>
+            </div>
+
+            <!-- Complete Image Gallery of 12 EEG Plots with Modal Zoom -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span>🖼️</span> Galería Completa de Evidencias de Neurociencia (12 Capturas)
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                            Haz clic en cualquier captura para abrir el visor en alta resolución con zoom a pantalla completa:
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <input type="text" oninput="filterGallery(this.value, 'NEUROCIENCIA')" placeholder="Filtrar capturas de EEG..." class="w-full sm:w-60 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <div id="filters-neurociencia" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div id="gallery-neurociencia" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-2">
+                    <!-- Cards populated by app.js -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================== -->
+    <!-- FULLSCREEN LIGHTBOX MODAL WITH ZOOM & CLICK-OUTSIDE-TO-CLOSE -->
+    <!-- ============================================================== -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6 transition-all duration-300">
+        <!-- Backdrop: Clicking here immediately closes the modal -->
+        <div id="lightbox-backdrop" class="absolute inset-0 bg-black/85 backdrop-blur-md cursor-pointer transition-opacity"></div>
+
+        <!-- Modal Dialog Container (Prevents click bubbling so clicking image doesn't close) -->
+        <div class="relative z-10 max-w-5xl w-full max-h-[92vh] bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200" onclick="event.stopPropagation()">
+            
+            <!-- Modal Header -->
+            <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between gap-4 bg-slate-950/60">
+                <div class="flex items-center gap-2.5 overflow-hidden">
+                    <span id="lightbox-category" class="px-2.5 py-0.5 text-xs font-bold rounded-lg bg-blue-600 text-white shrink-0">
+                        Categoría
+                    </span>
+                    <h3 id="lightbox-title" class="text-sm sm:text-base font-bold text-white truncate capitalize">
+                        Título de la Captura
+                    </h3>
+                </div>
+
+                <div class="flex items-center gap-3 shrink-0">
+                    <span id="lightbox-counter" class="text-xs text-slate-400 font-mono">1 de 10</span>
+                    <button id="lightbox-close" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Image Viewport with Previous/Next Arrows -->
+            <div class="relative flex-1 bg-slate-950 overflow-auto flex items-center justify-center p-3 sm:p-6 min-h-[300px]">
+                <!-- Navigation Arrows -->
+                <button id="lightbox-prev" class="absolute left-3 sm:left-6 z-20 p-3 rounded-full bg-slate-900/80 hover:bg-blue-600 text-white border border-slate-700 shadow-xl transition-all hover:scale-110">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="lightbox-next" class="absolute right-3 sm:right-6 z-20 p-3 rounded-full bg-slate-900/80 hover:bg-blue-600 text-white border border-slate-700 shadow-xl transition-all hover:scale-110">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+
+                <img id="lightbox-img" src="" alt="Captura ampliada" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl transition-transform duration-200 select-none" />
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-5 py-2.5 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs text-slate-400">
+                <span id="lightbox-path" class="font-mono text-[11px] text-slate-500 truncate">ruta/archivo.png</span>
+                <span class="text-[11px]">Presiona <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">Esc</kbd> o haz clic afuera para cerrar</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts: Data and App Logic -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

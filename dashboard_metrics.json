@@ -1,0 +1,312 @@
+{
+  "chicago": [
+    {
+      "modelo": "Jer\u00e1rquico (Ward)",
+      "n_clusters": 3.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 80.80593849416755,
+      "silhouette": 0.5718,
+      "calinski": 855.24,
+      "davies_bouldin": 0.6112
+    },
+    {
+      "modelo": "K-Means",
+      "n_clusters": 3.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 79.32131495227996,
+      "silhouette": 0.5663,
+      "calinski": 874.54,
+      "davies_bouldin": 0.6525
+    },
+    {
+      "modelo": "DBSCAN",
+      "n_clusters": 2.0,
+      "ruido_pct": 3.0752916224814424,
+      "cobertura": 0.9692470837751855,
+      "cluster_mayor_pct": 93.95546129374337,
+      "silhouette": 0.7164,
+      "calinski": 449.43,
+      "davies_bouldin": 0.2211
+    },
+    {
+      "modelo": "HDBSCAN",
+      "n_clusters": 24.0,
+      "ruido_pct": 39.23647932131495,
+      "cobertura": 0.6076352067868505,
+      "cluster_mayor_pct": 10.180275715800637,
+      "silhouette": 0.7232,
+      "calinski": 2017.58,
+      "davies_bouldin": 0.3456
+    },
+    {
+      "modelo": "OPTICS",
+      "n_clusters": 33.0,
+      "ruido_pct": 37.22163308589608,
+      "cobertura": 0.6277836691410392,
+      "cluster_mayor_pct": 4.559915164369035,
+      "silhouette": 0.7647,
+      "calinski": 3360.34,
+      "davies_bouldin": 0.4106
+    },
+    {
+      "modelo": "GMM (Gaussian Mixture)",
+      "n_clusters": 3.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 69.78,
+      "silhouette": 0.5582,
+      "calinski": 862.15,
+      "davies_bouldin": 0.641
+    }
+  ],
+  "rostros": [
+    {
+      "modelo": "Jer\u00e1rquico (Ward)",
+      "n_clusters": 3.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 63.095238095238095,
+      "silhouette": 0.1741,
+      "calinski": 37.62,
+      "davies_bouldin": 2.0136
+    },
+    {
+      "modelo": "K-Means",
+      "n_clusters": 3.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 55.95238095238095,
+      "silhouette": 0.172,
+      "calinski": 40.47,
+      "davies_bouldin": 1.9404
+    },
+    {
+      "modelo": "DBSCAN",
+      "n_clusters": 2.0,
+      "ruido_pct": 39.88095238095239,
+      "cobertura": 0.6011904761904762,
+      "cluster_mayor_pct": 57.142857142857146,
+      "silhouette": 0.5183,
+      "calinski": 33.15,
+      "davies_bouldin": 0.6178
+    },
+    {
+      "modelo": "HDBSCAN",
+      "n_clusters": 2.0,
+      "ruido_pct": 11.30952380952381,
+      "cobertura": 0.8869047619047619,
+      "cluster_mayor_pct": 84.52380952380952,
+      "silhouette": 0.4436,
+      "calinski": 33.2,
+      "davies_bouldin": 0.7197
+    },
+    {
+      "modelo": "OPTICS",
+      "n_clusters": 2.0,
+      "ruido_pct": 13.095238095238097,
+      "cobertura": 0.8690476190476191,
+      "cluster_mayor_pct": 82.14285714285714,
+      "silhouette": 0.4541,
+      "calinski": 37.99,
+      "davies_bouldin": 0.7616
+    },
+    {
+      "modelo": "GMM (Gaussian Mixture)",
+      "n_clusters": 3.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 58.33,
+      "silhouette": 0.1695,
+      "calinski": 39.42,
+      "davies_bouldin": 1.962
+    }
+  ],
+  "sonido": [
+    {
+      "modelo": "Jer\u00e1rquico (Ward)",
+      "n_clusters": 8.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 33.333333333333336,
+      "silhouette": 0.5362,
+      "calinski": 47.3,
+      "davies_bouldin": 0.8368
+    },
+    {
+      "modelo": "K-Means",
+      "n_clusters": 8.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 33.333333333333336,
+      "silhouette": 0.5279,
+      "calinski": 48.3,
+      "davies_bouldin": 0.8432
+    },
+    {
+      "modelo": "DBSCAN",
+      "n_clusters": 5.0,
+      "ruido_pct": 38.88888888888889,
+      "cobertura": 0.6111111111111112,
+      "cluster_mayor_pct": 16.666666666666668,
+      "silhouette": 0.6354,
+      "calinski": 140.54,
+      "davies_bouldin": 0.5943
+    },
+    {
+      "modelo": "HDBSCAN",
+      "n_clusters": 4.0,
+      "ruido_pct": 18.055555555555554,
+      "cobertura": 0.8194444444444444,
+      "cluster_mayor_pct": 33.333333333333336,
+      "silhouette": 0.5914,
+      "calinski": 86.45,
+      "davies_bouldin": 0.6897
+    },
+    {
+      "modelo": "OPTICS",
+      "n_clusters": 6.0,
+      "ruido_pct": 29.166666666666668,
+      "cobertura": 0.7083333333333334,
+      "cluster_mayor_pct": 18.055555555555557,
+      "silhouette": 0.459,
+      "calinski": 47.9,
+      "davies_bouldin": 0.8258
+    },
+    {
+      "modelo": "GMM (Gaussian Mixture)",
+      "n_clusters": 8.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 33.33,
+      "silhouette": 0.5184,
+      "calinski": 46.85,
+      "davies_bouldin": 0.865
+    }
+  ],
+  "texto_embeddings": [
+    {
+      "modelo": "Jer\u00e1rquico (Ward)",
+      "n_clusters": 6.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 33.333333333333336,
+      "silhouette": 0.0333,
+      "calinski": 4.13,
+      "davies_bouldin": 3.785
+    },
+    {
+      "modelo": "K-Means",
+      "n_clusters": 6.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 24.0,
+      "silhouette": 0.0387,
+      "calinski": 4.35,
+      "davies_bouldin": 3.6685
+    },
+    {
+      "modelo": "DBSCAN",
+      "n_clusters": 2.0,
+      "ruido_pct": 25.333333333333336,
+      "cobertura": 0.7466666666666667,
+      "cluster_mayor_pct": 72.0,
+      "silhouette": 0.0206,
+      "calinski": 1.97,
+      "davies_bouldin": 2.4424
+    },
+    {
+      "modelo": "HDBSCAN",
+      "n_clusters": 11.0,
+      "ruido_pct": 62.66666666666667,
+      "cobertura": 0.37333333333333335,
+      "cluster_mayor_pct": 10.0,
+      "silhouette": 0.2074,
+      "calinski": 4.49,
+      "davies_bouldin": 1.4681
+    },
+    {
+      "modelo": "OPTICS",
+      "n_clusters": 5.0,
+      "ruido_pct": 72.66666666666667,
+      "cobertura": 0.2733333333333333,
+      "cluster_mayor_pct": 8.666666666666666,
+      "silhouette": 0.1421,
+      "calinski": 4.28,
+      "davies_bouldin": 1.9081
+    },
+    {
+      "modelo": "GMM (Gaussian Mixture)",
+      "n_clusters": 6.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 26.67,
+      "silhouette": 0.0354,
+      "calinski": 4.21,
+      "davies_bouldin": 3.712
+    }
+  ],
+  "texto_tfidf": [
+    {
+      "modelo": "Jer\u00e1rquico (Ward)",
+      "n_clusters": 6.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 70.66666666666667,
+      "silhouette": 0.0502,
+      "calinski": 3.26,
+      "davies_bouldin": 2.8724
+    },
+    {
+      "modelo": "K-Means",
+      "n_clusters": 6.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 25.333333333333332,
+      "silhouette": 0.0304,
+      "calinski": 2.77,
+      "davies_bouldin": 4.6521
+    },
+    {
+      "modelo": "DBSCAN",
+      "n_clusters": 14.0,
+      "ruido_pct": 40.0,
+      "cobertura": 0.6,
+      "cluster_mayor_pct": 8.0,
+      "silhouette": 0.118,
+      "calinski": 3.29,
+      "davies_bouldin": 2.0433
+    },
+    {
+      "modelo": "HDBSCAN",
+      "n_clusters": 15.0,
+      "ruido_pct": 40.0,
+      "cobertura": 0.6,
+      "cluster_mayor_pct": 8.666666666666666,
+      "silhouette": 0.1449,
+      "calinski": 3.3,
+      "davies_bouldin": 2.0641
+    },
+    {
+      "modelo": "OPTICS",
+      "n_clusters": 9.0,
+      "ruido_pct": 62.0,
+      "cobertura": 0.38,
+      "cluster_mayor_pct": 6.0,
+      "silhouette": 0.1311,
+      "calinski": 3.36,
+      "davies_bouldin": 2.044
+    },
+    {
+      "modelo": "GMM (Gaussian Mixture)",
+      "n_clusters": 6.0,
+      "ruido_pct": 0.0,
+      "cobertura": 1.0,
+      "cluster_mayor_pct": 30.0,
+      "silhouette": 0.0381,
+      "calinski": 2.85,
+      "davies_bouldin": 4.45
+    }
+  ]
+}
